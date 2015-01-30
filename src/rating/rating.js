@@ -17,11 +17,11 @@ angular.module('ui.bootstrap.rating', [])
     this.stateOn = angular.isDefined($attrs.stateOn) ? $scope.$parent.$eval($attrs.stateOn) : ratingConfig.stateOn;
     this.stateOff = angular.isDefined($attrs.stateOff) ? $scope.$parent.$eval($attrs.stateOff) : ratingConfig.stateOff;
 
-    var ratingStates = angular.isDefined($attrs.ratingStates) ? $scope.$parent.$eval($attrs.ratingStates) :
-                        new Array( angular.isDefined($attrs.max) ? $scope.$parent.$eval($attrs.max) : ratingConfig.max );
-    $scope.range = this.buildTemplateObjects(ratingStates);
     $scope.valueMin = angular.isDefined($attrs.min) ? $scope.$parent.$eval($attrs.min) : ratingConfig.min;
-    $scope.valueMax = $scope.valueMin - 1 + ratingStates.length;
+    $scope.valueMax = angular.isDefined($attrs.max) ? $scope.$parent.$eval($attrs.max) : ratingConfig.max;;
+    var ratingStates = angular.isDefined($attrs.ratingStates) ? $scope.$parent.$eval($attrs.ratingStates) :
+                        new Array($scope.valueMax + 1 - $scope.valueMin);
+    $scope.range = this.buildTemplateObjects(ratingStates);
   };
 
   this.buildTemplateObjects = function(states) {
