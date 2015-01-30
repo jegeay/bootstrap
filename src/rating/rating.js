@@ -1,6 +1,7 @@
 angular.module('ui.bootstrap.rating', [])
 
 .constant('ratingConfig', {
+  min: 1,
   max: 5,
   stateOn: null,
   stateOff: null
@@ -19,6 +20,8 @@ angular.module('ui.bootstrap.rating', [])
     var ratingStates = angular.isDefined($attrs.ratingStates) ? $scope.$parent.$eval($attrs.ratingStates) :
                         new Array( angular.isDefined($attrs.max) ? $scope.$parent.$eval($attrs.max) : ratingConfig.max );
     $scope.range = this.buildTemplateObjects(ratingStates);
+    $scope.valueMin = angular.isDefined($attrs.min) ? $scope.$parent.$eval($attrs.min) : ratingConfig.min;
+    $scope.valueMax = $scope.valueMin - 1 + ratingStates.length;
   };
 
   this.buildTemplateObjects = function(states) {
@@ -29,7 +32,7 @@ angular.module('ui.bootstrap.rating', [])
   };
 
   $scope.rate = function(value) {
-    if ( !$scope.readonly && value >= 0 && value <= $scope.range.length ) {
+    if ( !$scope.readonly && value >= $scope.valueMin && value <= $scope.valueMax ) {
       ngModelCtrl.$setViewValue(value);
       ngModelCtrl.$render();
     }
